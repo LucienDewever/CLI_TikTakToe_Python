@@ -1,0 +1,117 @@
+"""
+Author: Lucien Dewever
+Date: 8/7/2021
+Project: Create Simple Tik Tak Toe Game
+"""
+
+def printBoard(board):
+    print("   |   |   ")
+    print(" {} | {} | {} ".format(board[0], board[1], board[2]))
+    print("   |   |   ")
+    print("-----------")
+    print("   |   |   ")
+    print(" {} | {} | {} ".format(board[3], board[4], board[5]))
+    print("   |   |   ")
+    print("-----------")
+    print("   |   |   ")
+    print(" {} | {} | {} ".format(board[6], board[7], board[8]))
+    print("   |   |   ")
+
+def userChoice():
+    validInput = False
+    while validInput== False:
+        position = input('Choose a postion 1-9 to place your Marker(from top let to bottom right): ')
+        if position.isdigit():
+            position = int(position)
+            if position in range(1, 10):
+                validInput =True
+            else:
+                print("Your Digit Must be Between 1 and 9")
+        else:
+            print("You Must Enter a Digit From 1-9")
+    return position
+
+def checkSpace(position, board):
+    isOpen = False
+    if board[position == " "]:
+        isOpen = True
+    else:
+        print("This space already has a piece in it, please try a different one")
+    return isOpen
+
+def checkWin(board, player):
+    return ((board[6] == player and board[7] == player and board[8] == player) or
+    (board[3] == player and board[4] == player and board[5] == player) or
+    (board[0] == player and board[1] == player and board[2] == player) or
+    (board[0] == player and board[3] == player and board[6] == player) or
+    (board[2] == player and board[5] == player and board[8] == player) or
+    (board[1] == player and board[4] == player and board[7] == player) or
+    (board[0] == player and board[4] == player and board[8] == player) or
+    (board[2] == player and board[4] == player and board[6] == player))
+
+def placePlayer(player, board, position):
+    board[position] = player
+
+def fullBoard(board):
+    full = True
+    for item in board:
+        if item != " ":
+            return False
+    return True
+
+def replay():
+    acceptableIn = False
+    replay = False
+    while acceptableIn == False:
+        choice = input('Would You Like to Play again(Y/N): ').upper()
+        if choice == 'Y' or choice == 'N':
+            acceptableIn = True
+        else:
+            print("Invalid input, please try again")
+
+    if choice == 'Y':
+        replay = True
+        return replay
+    return replay
+
+while(True):
+    board = [" "] * 10
+    print("X will always go first")
+    ready = input("Are you ready to Play(Y/N)?").upper()
+    PlayerSwitcher = True
+
+    if ready == "Y":
+        gameOn = True
+    elif ready == "N":
+        gameOn = False
+
+    while(gameOn):
+        isOpen = False
+        if PlayerSwitcher == True:
+            player = "X"
+        else:
+            player = "O"
+        print("\n" * 20)
+        printBoard(board)
+        while(isOpen == False):
+            position = userChoice()
+            isOpen = checkSpace(position, board)
+        position = position - 1
+        placePlayer(player, board, position)
+        if checkWin(board, player):
+            printBoard(board)
+            print("Team {} has Won!".format(player))
+            gameOn = False
+        elif fullBoard(board):
+            printBoard(board)
+            print("All spaces full, Tie Game")
+            break
+        else:
+            pass
+
+        PlayerSwitcher = not PlayerSwitcher
+
+    if replay() == False:
+        break
+
+    
